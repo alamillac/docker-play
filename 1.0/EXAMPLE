@@ -1,0 +1,11 @@
+GIT_PASSWORD="some password"
+URL_GIT=https://alamilla_config:$GIT_PASSWORD@bitbucket.org/alamilla/playtest.git
+docker run --name play-test -p 9000 -d -e "GIT_APP=$URL_GIT" alamilla/play-app
+
+docker run --rm -p 9000 -i -t -e "GIT_APP=$URL_GIT" -e "DEBUG_MODE=TRUE" alamilla/play-app bash
+
+URL_ZIP=https://backup.lamillac.com/alamilla-playtest.zip
+docker run --name play-test -p 9000 -d -e "DEBUG_MODE=TRUE" -e "WGET_ZIP_APP=$URL_ZIP" alamilla/play-app
+
+ID_LAST_CONTAINER=$(docker ps -l -q)
+docker logs -f $ID_LAST_CONTAINER
